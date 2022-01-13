@@ -27,8 +27,12 @@ def transform(data: dict) -> dict:
     return new_data
 
 
-f = open('data.json')
-data = json.load(f)
-with open("output.json", "w") as result:
-    for i in data:
-        json.dump(transform(i), result)
+f = open('input.json')
+lines = f.readlines()
+f.close()
+result = open("output.json", "w")
+for line in lines:
+    print(line)
+    new_data = transform(json.loads(line))
+    result.write(json.dumps(new_data))
+result.close()
