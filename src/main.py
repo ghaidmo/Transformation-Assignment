@@ -1,11 +1,11 @@
 import json
 
-from transformers.employee_transformer import transform
+from src.transformers.employee_transformer import transform
 
-with open('input.json') as f:
+with open('data/input.json') as f:
     lines = f.readlines()
 
-with open("output.json", "w") as result:
+with open("/output.json", "w") as result:
     for line in lines:
         print(line)
         new_data = transform(json.loads(line))

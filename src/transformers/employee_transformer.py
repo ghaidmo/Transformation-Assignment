@@ -1,4 +1,5 @@
-from models.department import Department
+
+from src.models.department import Department
 
 
 def transform(data: dict) -> dict:
@@ -9,18 +10,33 @@ def transform(data: dict) -> dict:
         'department': Department[data['department']].value
     }
 
-    new_data['adult'] = data['age'] > 18
+    new_data['adult'] = is_adult(data['age'])
 
-    if data['salary'] < 10000:
-        tax_percent = 0
-    elif 10000 <= data['salary'] < 20000:
-        tax_percent = 10
-    elif 20000 <= data['salary'] < 30000:
-        tax_percent = 20
-    elif 30000 <= data['salary'] <= 40000:
-        tax_percent = 30
-
-    new_data['tax_percent'] = tax_percent
-    new_data['after_salary'] = data['salary']-(data['salary']*tax_percent/100)
+    new_data['tax_percent'] = calc_tax_percent(data['salary'])
+    new_data['after_salary'] = calc_salary_after_tax(
+        new_data['tax_percent'], data['salary'])
 
     return new_data
+
+
+def is_adult(age: int):
+    return age >= 18
+
+
+def calc_tax_percent(salary: int):
+    if salary < 10000:
+        tax_percent = 0
+    elif 10000 <= salary < 20000:
+        tax_percent = 10
+    elif 20000 <= salary < 30000:
+        tax_percent = 20
+    elif 30000 <= salary <= 40000:
+        tax_percent = 30
+    return tax_percent
+
+
+def calc_salary_after_tax(tax_percent: int, salary: int):
+
+    new_salary = salary-((salary*(tax_percent/100)))
+
+    return new_salary
