@@ -1,2 +1,2 @@
-class Model:
-    abc = 123
+class MyModel:
+    abc = 1234
